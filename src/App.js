@@ -1,21 +1,47 @@
-import React, { Component } from 'react';
+
+//NEW PROGRAM SHOPING CARD//
+
+import React, {Component} from 'react';
+import AddItem from './components/items';
+import Header from './components/header';
+import Card from './components/card'
+
 class App extends Component {
-  constructor(p) {
-    super(p);
-    this.state = {names: ['A']};
-      }
-      ComponentDidMount(){
-        const choices = ['a', 'b', 'c', 'd'];
-        setInterval(() => {
-          const names = [... this.state.names];
-          names.push(choices[Math.floor(Math.random() * 4)]);
-          this.setState({names:names});
-        }, 3 * 1000);
-      }
- render() {
-  const names = this.state.names.map(elem => {
-    return (<p>{elem}</p>); });
-    return (<div>{names}</div>);
+  constructor(){
+    super();
+    this.state = {
+      //text:"example"
+    items:[]
+    }
   }
+  render() {
+    console.log(this.state.items);
+    return (
+      <div className="App">
+      <Header
+      number={this.state.items.length}
+       />
+       <Card
+       items = {this.state.items}
+       deleteHandeler={(e)=> {
+         let {items}= this.state;
+         delete items[e.target.id];
+         items=items.filter((elem)=>{
+           return (elem !==undefined);
+         });
+         this.setState({items});
+       }}
+       />
+      <AddItem
+      addItemFunc={(data)=>{
+        const {items} = this.state;
+        items.push(data);
+        this.setState({items});
+      }}
+      />
+      </div>
+);
+    }
+
 }
 export default App;
